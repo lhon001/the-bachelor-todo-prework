@@ -1,13 +1,9 @@
 require "pry"
 def get_first_name_of_season_winner(data, season)
-  data.each do |season_key, season_val|
-    if season_key.to_s == season
-      season_val.each do |contestant_info|
-        if contestant_info["status"] == "Winner"
-          name = contestant_info["name"].split(" ")
-          return name[0]
-        end
-      end
+  data[season].each do |contestant_info|
+    if contestant_info["status"] == "Winner"
+      name = contestant_info["name"].split(" ")
+      return name[0]
     end
   end
 end
@@ -49,17 +45,11 @@ end
 def get_average_age_for_season(data, season)
   # Iterate through the hash and return the average age
   # of all of the contestants for that season
-  age = []
-  data.each do |season_key, season_val|
-    if season_key == season
-      season_val.each do |contestant_info|
-        age << contestant_info["age"].to_i
-      end
-    end
+  age = 0
+  counter = 0
+  data[season].each do |key, value|
+    age += key["age"].to_f
+    counter += 1
   end
-  total = 0.0
-  age.each do |num|
-    total += num
-  end
-  (total / age.length).round
+  (age / counter).round
 end
